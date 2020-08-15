@@ -1,0 +1,46 @@
+[
+    {
+        "email": "ryan@summamedia.co",
+        "password": "password"
+    },
+    {
+        "email": "chris@summamedia.co",
+        "password": "password",
+        "id": "12c70fbc"
+    },
+    {
+        "email": "Rtroman14@gmail.com",
+        "password": "asdf",
+        "id": "3a9410e2"
+    },
+    {
+        "email": "rroman@cr-bps.com",
+        "password": "pass",
+        "id": "e9e78a3d"
+    },
+    {
+        "email": "test@test.com",
+        "password": "0c535379555ccc8dfbcf913556b97ab8b1325a27d5df260cdb38cbd49e62bbceee2155184f5380412c9cd2f5fdc25acbf74466477f7408738815160ca5e7cd2e.c682c097030eddc0",
+        "id": "f246ef4e"
+    },
+    {
+        "email": "test2@test.com",
+        "password": "b5397b1d2ca5146010e20de7225ace1dbce9f27007104132d758df4dd19772a18792e9af66ff93940aa3206e3e9715f8d6048520b309e56d94d7cdce87b2fc82.ad7462617b2e0374",
+        "id": "0dc9f736"
+    },
+    {
+        "email": "test3@test.com",
+        "password": "0b0499e150ab34da3fc9f2d91651e92b60fde09747f8cdc3a5f4a08ec5c90daed48d9e2514680e13f2359eaa27e52048f5686754e3d165e11ba3485ba481e65f.e175b176661c11f9",
+        "id": "5de13496"
+    },
+    {
+        "email": "test4@test.com",
+        "password": "c8407caae340316b95b632c8bd2c7d999ff1b95e9c1b613eb0a16cff44c7940a247853a39c0647154237b2f76b5636a7fa553f6f43f815adf13200a9a7e435c9.7f941bfb6655ffd7",
+        "id": "74574e12"
+    },
+    {
+        "email": "rtroman14@gmail.com",
+        "password": "80432a29dd7878bd8a50265360af60d1a1e9b1ac326ad86c17b8cfa52cefc6d0583ec37c18c1a0e237c9aa84719981eb4d612306413d807d78925756962b49e9.c6de3f916c41ee4d",
+        "id": "01de1f62"
+    }
+]
