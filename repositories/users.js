@@ -4,88 +4,87 @@ const util = require("util");
 
 const scrypt = util.promisify(crypto.scrypt);
 
-class UsersRepositories {
+class UsersRepository {
     constructor(filename) {
         if (!filename) {
             throw new Error("Creating a repository requires a filename");
         }
 
         this.filename = filename;
-
         try {
             fs.accessSync(this.filename);
-        } catch {
+        } catch (err) {
             fs.writeFileSync(this.filename, "[]");
         }
     }
 
     async getAll() {
-        return JSON.parse(await fs.promises.readFile(this.filename));
+        return JSON.parse(
+            await fs.promises.readFile(this.filename, {
+                encoding: "utf8",
+            })
+        );
     }
 
-    async create(attributes) {
-        // attributes === { email: "", password: "" }
-        attributes.id = this.randomId();
+    async create(attrs) {
+        attrs.id = this.randomId();
 
-        // extra security to password
         const salt = crypto.randomBytes(8).toString("hex");
-        const buffer = await scrypt(attributes.password, salt, 64);
+        const buf = await scrypt(attrs.password, salt, 64);
 
         const records = await this.getAll();
         const record = {
-            ...attributes,
-            password: `${buffer.toString("hex")}.${salt}`,
+            ...attrs,
+            password: `${buf.toString("hex")}.${salt}`,
         };
-
         records.push(record);
 
         await this.writeAll(records);
 
-        return attributes;
+        return record;
     }
 
     async comparePasswords(saved, supplied) {
-        // saved === password in database. "hashed.salt"
-        // supplied === password given from user trying to sign up
-
+        // Saved -> password saved in our database. 'hashed.salt'
+        // Supplied -> password given to us by a user trying sign in
         const [hashed, salt] = saved.split(".");
+        const hashedSuppliedBuf = await scrypt(supplied, salt, 64);
 
-        const hashedSuppliedBuffer = await scrypt(supplied, salt, 64);
-
-        return hashed === hashedSuppliedBuffer.toString("hex");
+        return hashed === hashedSuppliedBuf.toString("hex");
     }
 
     async writeAll(records) {
-        // writes to fill with 4 spaces to prettyPrint
-        await fs.promises.writeFile(this.filename, JSON.stringify(records, null, 4));
+        await fs.promises.writeFile(this.filename, JSON.stringify(records, null, 2));
     }
 
-    async getUser(id) {
-        const records = await this.getAll();
+    randomId() {
+        return crypto.randomBytes(4).toString("hex");
+    }
 
+    async getOne(id) {
+        const records = await this.getAll();
         return records.find((record) => record.id === id);
     }
 
     async delete(id) {
         const records = await this.getAll();
         const filteredRecords = records.filter((record) => record.id !== id);
-
         await this.writeAll(filteredRecords);
     }
 
-    async update(id, attributes) {
+    async update(id, attrs) {
         const records = await this.getAll();
         const record = records.find((record) => record.id === id);
 
         if (!record) {
-            throw new Error(`Record with id: ${id} not found.`);
+            throw new Error(`Record with id ${id} not found`);
         }
 
-        Object.assign(record, attributes);
+        Object.assign(record, attrs);
         await this.writeAll(records);
     }
 
-    async getUserBy(filters) {
+    async getOneBy(filters) {
         const records = await this.getAll();
 
         for (let record of records) {
@@ -102,10 +101,6 @@ class UsersRepositories {
             }
         }
     }
-
-    randomId() {
-        return crypto.randomBytes(4).toString("hex");
-    }
 }
 
-module.exports = new UsersRepositories("users.json");
+module.exports = new UsersRepository("users.json");
