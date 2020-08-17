@@ -1,6 +1,5 @@
 const fs = require("fs");
 const crypto = require("crypto");
-const { getAll } = require("./users");
 
 module.exports = class Repository {
     constructor(filename) {
