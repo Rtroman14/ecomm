@@ -2,7 +2,7 @@ const { check } = require("express-validator");
 const usersRepo = require("../../repositories/users");
 
 module.exports = {
-    // check("${input.name}")
+    // check(input.name)
     requireTitle: check("title")
         .trim()
         .isLength({ min: 5, max: 40 })
