@@ -11,7 +11,6 @@ const {
     requireEmailExists,
     requireValidPasswordForUser,
 } = require("./validators");
-const signup = require("../../views/admin/auth/signup");
 
 const router = express.Router();
 
@@ -51,7 +50,6 @@ router.post(
 
         const user = await usersRepo.getOneBy({ email });
 
-        // auth cookie attached to user
         req.session.userId = user.id;
 
         res.redirect("/admin/products");
