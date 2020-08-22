@@ -19,7 +19,18 @@ router.post("/cart/products", async (req, res) => {
 
     // Either incriment existing product quantity
     // OR add new prodcut to cart array
-    console.log(cart);
+    const existingItem = cart.items.find((item) => item.id === req.body.productId);
+    if (existingItem) {
+        // Incriment item if item exists
+        existingItem.quantity++;
+    } else {
+        // Add product to cart
+        cart.items.push({ id: req.body.productId, quantity: 1 });
+    }
+
+    await cartsRepo.update(cart.id, {
+        items: cart.items,
+    });
     res.send("Product added to cart");
 });
 
